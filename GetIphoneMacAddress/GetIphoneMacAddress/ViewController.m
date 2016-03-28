@@ -36,8 +36,6 @@
 #include <errno.h>
 #include <paths.h>
 #import <SystemConfiguration/CaptiveNetwork.h>
-
-
 #include "NICInfo.h"
 #include "NICInfoSummary.h"
 @interface ViewController ()
@@ -49,6 +47,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
+    
     id info = nil;
     info = [self fetchSSIDInfo];
     //NSLog(@"%@WIFI名字：%@",info,[info objectForKey:@"SSID"]);
@@ -128,7 +127,6 @@
     [cell.self addSubview:cellview];
     
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;//后边有小箭头
-    //cell.selectionStyle = UITableViewCellSelectionStyleNone;//选中无风格
     return cell;
     
 }
@@ -149,12 +147,11 @@
 //头部view
 - (UIView *)tableView:(UITableView *)tableView
 viewForHeaderInSection:(NSInteger)section{
-    UIView *v_headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 40)];//创
-    v_headerView.backgroundColor = [UIColor groupTableViewBackgroundColor];
-    UILabel *v_headerLab = [[UILabel alloc] initWithFrame:CGRectMake(20, 40/2-10, self.view.frame.size.width, 20)];//创建一个UILable（v_headerLab）用来显示标题
-    v_headerLab.text = [NSString stringWithFormat:@"路由器所链接的设备数为：%lu",(unsigned long)[_rqlistarry count]];//@"我的余额 :";
-    v_headerLab.textColor = [UIColor grayColor];//设置v_headerLab的字体颜色
-    v_headerLab.font = [UIFont fontWithName:@"Arial" size:17];//设置v_headerLab的字体样式和大小
+    UIView *v_headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 40)];    v_headerView.backgroundColor = [UIColor groupTableViewBackgroundColor];
+    UILabel *v_headerLab = [[UILabel alloc] initWithFrame:CGRectMake(20, 40/2-10, self.view.frame.size.width, 20)];
+    v_headerLab.text = [NSString stringWithFormat:@"路由器所链接的设备数为：%lu",(unsigned long)[_rqlistarry count]];
+    v_headerLab.textColor = [UIColor grayColor];
+    v_headerLab.font = [UIFont fontWithName:@"Arial" size:17];
     [v_headerView addSubview:v_headerLab];
     
     return v_headerView;
@@ -165,7 +162,7 @@ viewForHeaderInSection:(NSInteger)section{
 {
     int flags = 0,  found_entry = 0;
     NSString *mAddr = nil;
-    u_long addr = inet_addr("");
+    u_long addr = inet_addr([[self getIPAddress] UTF8String]);
     //NSLog(@"---------%s",[[self getIPAddress] UTF8String]);
     int mib[6];
     size_t needed;
@@ -183,23 +180,15 @@ viewForHeaderInSection:(NSInteger)section{
     mib[4] = NET_RT_FLAGS;
     mib[5] = RTF_LLINFO;
     
-    //    if (sysctl(mib, 6, NULL, &needed, NULL, 0) < 0)
-    //        err(1, "route-sysctl-estimate");
-    //    if ((buf = malloc(needed)) == NULL)
-    //        err(1, "malloc");
-    //    if (sysctl(mib, 6, buf, &needed, NULL, 0) < 0)
-    //        err(1, "actual retrieval of routing table");
-    if (sysctl(mib, sizeof(mib) / sizeof(mib[0]), NULL, &needed, NULL, 0) < 0)
+    if (sysctl(mib, 6, NULL, &needed, NULL, 0) < 0)
         err(1, "route-sysctl-estimate");
-    
-    if ((buf = (char*)malloc(needed)) == NULL)
+    if ((buf = malloc(needed)) == NULL)
         err(1, "malloc");
-    
-    if (sysctl(mib, sizeof(mib) / sizeof(mib[0]), buf, &needed, NULL, 0) < 0)
-        err(1, "retrieval of routing table");
+    if (sysctl(mib, 6, buf, &needed, NULL, 0) < 0)
+        err(1, "actual retrieval of routing table");
     
     lim = buf + needed;
-    NSLog(@"********---%s",lim);
+    //NSLog(@"********---%s",lim);
     for (next = buf; next < lim; next += rtm->rtm_msglen) {
         rtm = (struct rt_msghdr *)next;
         sin = (struct sockaddr_inarp *)(rtm + 1);
@@ -223,11 +212,8 @@ viewForHeaderInSection:(NSInteger)section{
                 flags = 1;
         }
         
-        
-        
         if (sdl->sdl_alen) {
             u_char  *cp = (u_char*)LLADDR(sdl);
-            
             mAddr = [NSString stringWithFormat:@"%02x:%02x:%02x:%02x:%02x:%02x", cp[0], cp[1], cp[2], cp[3], cp[4], cp[5]];
             [_rqlistarry addObject:[NSString stringWithFormat:@"%@%s",mAddr,inet_ntoa(sin->sin_addr)]];
             [self.wifiIphoneMacTableView reloadData];
