@@ -3,6 +3,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
@@ -14,13 +15,59 @@
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="monkey" translatesAutoresizingMaskIntoConstraints="NO" id="HHU-37-lfW">
+                                <rect key="frame" x="105" y="39" width="110" height="110"/>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VAR-SX-I1z">
+                                <rect key="frame" x="-8" y="162" width="336" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BVy-2U-fFY">
+                                <rect key="frame" x="-4" y="189" width="328" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Vgd-O0-Jza">
+                                <rect key="frame" x="-4" y="218" width="328" height="350"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" red="0.40644631219999999" green="1" blue="0.7026079945" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="HHU-37-lfW" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="19" id="0bH-bw-gLp"/>
+                            <constraint firstItem="BVy-2U-fFY" firstAttribute="top" secondItem="VAR-SX-I1z" secondAttribute="bottom" constant="6" id="9Jt-pA-nI9"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="Vgd-O0-Jza" secondAttribute="trailing" constant="-20" id="Fwu-OG-5uY"/>
+                            <constraint firstItem="VAR-SX-I1z" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="-24" id="HGW-mc-oz5"/>
+                            <constraint firstItem="Vgd-O0-Jza" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="-20" id="Pnb-ZP-aub"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="Vgd-O0-Jza" secondAttribute="bottom" id="QIk-Ki-Umq"/>
+                            <constraint firstItem="VAR-SX-I1z" firstAttribute="centerX" secondItem="HHU-37-lfW" secondAttribute="centerX" id="aL7-TL-ow0"/>
+                            <constraint firstItem="BVy-2U-fFY" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="-20" id="cl5-ME-HxW"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="BVy-2U-fFY" secondAttribute="trailing" constant="-20" id="jNg-jp-9m6"/>
+                            <constraint firstItem="BVy-2U-fFY" firstAttribute="top" secondItem="VAR-SX-I1z" secondAttribute="bottom" constant="6" id="qdd-ii-8tu"/>
+                            <constraint firstItem="VAR-SX-I1z" firstAttribute="top" secondItem="HHU-37-lfW" secondAttribute="bottom" constant="13" id="uS4-ab-lfl"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="VAR-SX-I1z" secondAttribute="trailing" constant="-24" id="vzC-96-lxa"/>
+                            <constraint firstItem="Vgd-O0-Jza" firstAttribute="top" secondItem="BVy-2U-fFY" secondAttribute="bottom" constant="8" symbolic="YES" id="xp7-ZG-t3G"/>
+                        </constraints>
                     </view>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
+                    <connections>
+                        <outlet property="wifiBssidLabel" destination="BVy-2U-fFY" id="Ly5-6z-QHN"/>
+                        <outlet property="wifiIphoneMacTableView" destination="Vgd-O0-Jza" id="N3p-af-3QB"/>
+                        <outlet property="wifiSsiddLabel" destination="VAR-SX-I1z" id="wcL-M2-Ehg"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="-123" y="210"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="monkey" width="110" height="110"/>
+    </resources>
 </document>
